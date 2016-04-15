@@ -1,8 +1,11 @@
 /**
  * Created by adnan on 4/13/16.
  */
-
+var name = getQueryVariable('name') || 'Anonymous';
+var room = getQueryVariable('room');
 var socket = io();
+
+console.log(name + ' wants to join ' + room);
 
 socket.on('connect', function () {
     console.log('Connected to socket io server');
@@ -10,9 +13,11 @@ socket.on('connect', function () {
 
 socket.on('message', function (message) {
     var momentTimestamp = moment.utc(message.timestamp).local().format('hh:mm a');
+    var $message = jQuery('.messages');
+
     console.log('New Message is: ' + message.text + '  ' + momentTimestamp);
 
-    jQuery('.messages').append('<p><strong>'+momentTimestamp +'</strong>'+ ' : ' + message.text +'</p>');
+    $message.append('<p><strong>' + message.name + ' ' + momentTimestamp + '</strong>' + ' : ' + message.text + '</p>') ;
 });
 
 //Handle submitting of new message
@@ -22,7 +27,8 @@ $form.on('submit', function (event) {
     var $message = $form.find('input[name=message]');
 
     socket.emit('message', {
-        text: $message.val()
+        text: $message.val(),
+        name: name
     });
     $message.val('');
 });
