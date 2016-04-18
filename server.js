@@ -10,19 +10,18 @@ app.use(express.static(__dirname + '/public'));
 
 var clientInfo = {};
 //sends current users to provided socket
-function sendCurrentUsers (socket) {
-    var info= clientInfo[socket.id];
+function sendCurrentUsers(socket) {
+    var info = clientInfo[socket.id];
     var users = [];
 
-    if (typeof info === 'undefined'){
+    if (typeof info === 'undefined') {
         return;
     }
-
     
     Object.keys(clientInfo).forEach(function (socketId) {
         var userInfo = clientInfo[socketId];
 
-        if (info.room === userInfo.room){
+        if (info.room === userInfo.room) {
             users.push(userInfo.name);
         }
     });
