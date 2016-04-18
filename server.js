@@ -17,6 +17,8 @@ function sendCurrentUsers (socket) {
     if (typeof info === 'undefined'){
         return;
     }
+
+    
     Object.keys(clientInfo).forEach(function (socketId) {
         var userInfo = clientInfo[socketId];
 
